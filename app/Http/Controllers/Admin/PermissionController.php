@@ -5,9 +5,23 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            return $next($request);
+        });
+    }
+
     /**
      * Display a listing of the resource.
      *

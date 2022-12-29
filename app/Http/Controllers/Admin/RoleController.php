@@ -4,11 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function($request, $next) {
+            if (session('success')) {
+                Alert::success(session('success'));
+            } 
+            if (session('error')) {
+                Alert::error(session('error'));
+            }
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +55,7 @@ class RoleController extends Controller
         ]);
         Role::create($validated);
         $roles = Role::orderBy('updated_at','desc')->paginate(5);
+        // Alert::success('Congrats', 'You\'ve Successfully Registered');
         return redirect()->route('admin.roles')->with(['roles' =>$roles ,'success' => 'Role Added Successfully']);
     }
 
@@ -82,7 +95,7 @@ class RoleController extends Controller
         $roles = Role::find($id);
         $roles->name = $request->name;
         $roles->update();
-        return redirect()->route('admin.roles')->with(['roles' =>$roles ,'success' => 'Permission Updated Successfully']);
+        return redirect()->route('admin.roles')->with(['roles' =>$roles ,'success' => 'Role Updated Successfully']);
     }
 
     /**
@@ -101,6 +114,6 @@ class RoleController extends Controller
         // dd($resutl);
         $resutl->delete();
         $roles = Role::orderBy('updated_at','desc')->paginate(5);
-        return redirect()->route('admin.roles')->with(['roles' =>$roles ,'success' => 'Permission Deleted Successfully']);
+        return redirect()->route('admin.roles')->with(['roles' =>$roles ,'success' => 'Role Deleted Successfully']);
     }
 }

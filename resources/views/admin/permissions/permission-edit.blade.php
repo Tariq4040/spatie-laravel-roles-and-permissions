@@ -1,4 +1,5 @@
 @extends('components.leftsidebar')
+@include('sweetalert::alert')
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -29,11 +30,18 @@
             <h1 class="text-center text-primary m-4">Edit/Update Permissions DashBoard</h1>
             <div class="py-12">
             <div style="margin-left: 30px;">
-                @if(Session::has('success'))
+                {{-- @if(Session::has('success'))
                     <div class="alert alert-success alert-dismissible fade show"  id="success-alert" role="alert" style="width: 65%">
                         <strong>{{ session('success') }}</strong>
                     </div>
-                @endif
+                @endif --}}
+
+<script>
+    @if($message = session('success'))
+    Swal.fire('Good job!','{{ $message }}','success')
+    @endif
+</script>
+
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="row" style="margin: 10px;width: 950px;">
 

@@ -1,3 +1,4 @@
+@include('sweetalert::alert')
 @extends('components.leftsidebar')
 
 <!DOCTYPE html>
@@ -32,12 +33,17 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="row" style="margin: 10px;width: 950px;">
 
-                    @if(Session::has('success'))
+                    {{-- this notification alert is working, below also used realRashid notification.using javascript tag--}}
+                    {{-- @if(Session::has('success'))
                     <div class="alert alert-success alert-dismissible fade show"  id="success-alert" role="alert" style="width: 65%">
                         <strong>{{ session('success') }}</strong>
                     </div>
-                    @endif
-
+                    @endif --}}
+<script>
+    @if($message = session('success'))
+    Swal.fire('Good job!','{{ $message }}','success')
+    @endif
+</script>
                         <div class="col-md-8">
                             <div class="card">
                                 <div class="card-body">
